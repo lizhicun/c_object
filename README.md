@@ -116,6 +116,12 @@ void foobar(X& _result) {   //NRV优化
 [图]
 
 ### 关键字多带来的差异
+struct 和 class 关键字的意义：
+* 它们之间在语言层面并无本质的区别，更多的是概念和编程思想上的区别。
+* struct 用来表现那些只有数据的集合体 POD（Plain OI' Data）、而 class 则希望表达的是ADT（abstract data type）的思想；
+* 由于这 2 个关键字在本质是无区别，所以 class 并没有必须要引入，但是引入它的确非常令人满意，因为这个语言所引入的不止是这个关键字，还有它所支持的封装和继承的哲学；
+* 可以这样想象：struct 只剩下方便 C 程序员迁徙到 C++的用途了。
+
 ### 对象的差异
 C++支持三种程序设计范式(programming paradigms):程序模型(procedural model),抽象数据类型模型(abstract data type model, ADT)以及面向对象模型(object-orient model)。
 只有通过pointer或者reference的间接处理，才能支持多态(用基类对象的指针或者引用处理派生类接口)，否则很可能产生切割(将派生类对象直接赋给基类对象)。  
@@ -178,10 +184,6 @@ ZooAnimal *pz = &b;
 b,pb,rb的内存需求是怎样的呢？  
 b是一个Bear Object,所需要的内存位24bytes，  
 包括ZooAnimal的16bytes以及Bear本身的8bytes，而指针pb以及引用rb只需要4bytes(在32位机器上)。具体见下图：  
-[图]
-假设Bear object b放在地址1000处，那么Bear指针pb 和ZooAnima指针pz有什么区别呢？它们都是指向Bear Object的首地址(第一个byte即1000)，差别在于pb所涵盖地址包括整个Bear Object即1000~1023，而pz所涵盖地址仅仅包括ZooAnimal Subobject即1000~1015
-
-7.cast是一种编译器指令，大部分情况下它并不改变一个指针所含的真正地址，它只影响“被指出之内存的大小和其内容”的解释方式
-
-8.用一个派生类对象去初始化其基类对象则该派生类对象的特有部分会被切割，只留下基类部分
-
+[图]  
+假设Bear object b放在地址1000处，那么Bear指针pb 和ZooAnima指针pz有什么区别呢？它们都是指向Bear Object的首地址(第一个byte即1000)，差别在于pb所涵盖地址包括整个Bear Object即1000~1023，而pz所涵盖地址仅仅包括ZooAnimal Subobject即1000~1015.一个指针或者引用之所以支持多态，是因为它们不引发内存中与类型相关的改变，而只改变它们所指向内存的“大小和内容解释方式”。
+cast是一种编译器指令，大部分情况下它并不改变一个指针所含的真正地址，它只影响“被指出之内存的大小和其内容”的解释方式
