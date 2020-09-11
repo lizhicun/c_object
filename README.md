@@ -192,5 +192,5 @@ b是一个Bear Object,所需要的内存位24bytes，
 包括ZooAnimal的16bytes以及Bear本身的8bytes，而指针pb以及引用rb只需要4bytes(在32位机器上)。具体见下图：  
 ![Image text](https://github.com/lizhicun/c_object/blob/master/src/8.png)
 
-假设Bear object b放在地址1000处，那么Bear指针pb 和ZooAnima指针pz有什么区别呢？它们都是指向Bear Object的首地址(第一个byte即1000)，差别在于pb所涵盖地址包括整个Bear Object即1000 ~1023，而pz所涵盖地址仅仅包括ZooAnimal Subobject即1000~1015.一个指针或者引用之所以支持多态，是因为它们不引发内存中与类型相关的改变，而只改变它们所指向内存的“大小和内容解释方式”。
+假设Bear object b放在地址1000处，那么Bear指针pb 和ZooAnima指针pz有什么区别呢？它们都是指向Bear Object的首地址(第一个byte即1000)，差别在于pb所涵盖地址包括整个Bear Object即1000 ~ 1023，而pz所涵盖地址仅仅包括ZooAnimal Subobject即1000~1015.一个指针或者引用之所以支持多态，是因为它们不引发内存中与类型相关的改变，而只改变它们所指向内存的“大小和内容解释方式”。
 cast是一种编译器指令，大部分情况下它并不改变一个指针所含的真正地址，它只影响“被指出之内存的大小和其内容”的解释方式
