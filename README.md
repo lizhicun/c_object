@@ -60,22 +60,22 @@ private:
 ```
 #### 简单对象模型
 members按照其声明顺序，各被指定一个slot；members本身并不放在object之中，只有“指向member的数据成员”才放在object中
- ![Image text](https://github.com/lizhicun/-c-/blob/master/src/pic1.png)
+ ![Image text](https://github.com/lizhicun/c_object/blob/master/src/1.png)
 很容易知道一个class object的大小为指针大小乘上class中声明的member的个数
 #### 表格驱动对象模型
 class object内含指向两个表格的指针，一个指针指向data member table（数据成员表，存放数据），另一个指针指向Member function table（成员函数表，存放成员函数）
-[图]
+![Image text](https://github.com/lizhicun/c_object/blob/master/src/2.png)
 #### C++对象模型
 C++对象模型将静态数据成员，静态成员函数和一般非静态成员函数均存放在个别的class object之外(单独存取，和对象无关)，而非静态数据成员则被放在每一个class object内，虚函数则以下面两个步骤支持：
 * 每一个class产生一堆指向虚函数的指针，并且按照顺序置于虚函数表(virtual table，vbtl)。
 * 每一个class object安插一个指针(vptr)指向第一步的virtual table。vptr的设定以及重置都由每一个class的construtor, destrutor和copy assignment自动完成。(由于构造函数来设定vptr,故构造函数无法称成为虚函数)。每一个class 所关联的type_info object(用于支持RTTI）也通常放在虚函数表的第一个slot。
-[图]
+![Image text](https://github.com/lizhicun/c_object/blob/master/src/3.png)
 #### 加上继承后的对象模型
 在虚继承，virtual base class不管在继承链上被派生多少次，派生类中永远只会存在一个virtual base class的一个实例(有且仅有一个subobject),例如在以下iostream继承体系中，派生类iostream只有virtual ios base 的一个实例.
-[图]
+![Image text](https://github.com/lizhicun/c_object/blob/master/src/4.png)
 那么一个派生类是如何模塑其基类的实例呢？
 base table模型：每一个class object内含一个bptr(pointer to base ctable),例如
-[图]
+![Image text](https://github.com/lizhicun/c_object/blob/master/src/5.png)
 iostream类中的pbtr指向它的两个基类的table,此外，这种模型下存取的时间和继承的深度是密切相关的。例如：iostream object 要存取到ios subobject必然要经过两次。更加详细的讨论可以见第三章第四节
 #### 对象模型是如何影响程序
 举个栗子
@@ -113,7 +113,7 @@ void foobar(X& _result) {   //NRV优化
 ```
 不同的对象模型会导致现有的程序代码在内部转换结果不同
 类X的对象模型如下
-[图]
+![Image text](https://github.com/lizhicun/c_object/blob/master/src/6.png)
 
 ### 关键字多带来的差异
 struct 和 class 关键字的意义：
@@ -160,7 +160,7 @@ ZooAnimal za("Zoey");
 ZooAnimal *pza = &za;
 ```
 内存布局
-[图]
+![Image text](https://github.com/lizhicun/c_object/blob/master/src/7.png)
 int在32位机器上一般是4bits，内存中的地址涵盖1000~1003，string通常是8bits(包括4bits的字符指针以及4bits的字符长度的整数)，地址涵盖1004~1011，最后是4bits的vptr，地址涵盖1012~1015.
 
 加上多态后
@@ -184,6 +184,6 @@ ZooAnimal *pz = &b;
 b,pb,rb的内存需求是怎样的呢？  
 b是一个Bear Object,所需要的内存位24bytes，  
 包括ZooAnimal的16bytes以及Bear本身的8bytes，而指针pb以及引用rb只需要4bytes(在32位机器上)。具体见下图：  
-[图]  
+![Image text](https://github.com/lizhicun/c_object/blob/master/src/8.png)
 假设Bear object b放在地址1000处，那么Bear指针pb 和ZooAnima指针pz有什么区别呢？它们都是指向Bear Object的首地址(第一个byte即1000)，差别在于pb所涵盖地址包括整个Bear Object即1000~1023，而pz所涵盖地址仅仅包括ZooAnimal Subobject即1000~1015.一个指针或者引用之所以支持多态，是因为它们不引发内存中与类型相关的改变，而只改变它们所指向内存的“大小和内容解释方式”。
 cast是一种编译器指令，大部分情况下它并不改变一个指针所含的真正地址，它只影响“被指出之内存的大小和其内容”的解释方式
