@@ -60,7 +60,7 @@ private:
 ```
 #### 简单对象模型
 members按照其声明顺序，各被指定一个slot；members本身并不放在object之中，只有“指向member的数据成员”才放在object中
-[图]
+ ![Image text](https://github.com/lizhicun/-c-/blob/master/src/pic1.png)
 很容易知道一个class object的大小为指针大小乘上class中声明的member的个数
 #### 表格驱动对象模型
 class object内含指向两个表格的指针，一个指针指向data member table（数据成员表，存放数据），另一个指针指向Member function table（成员函数表，存放成员函数）
