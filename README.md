@@ -167,7 +167,7 @@ ZooAnimal *pza = &za;
 内存布局
 ![Image text](https://github.com/lizhicun/c_object/blob/master/src/7.png)
 
-int在32位机器上一般是4bits，内存中的地址涵盖1000~1003，string通常是8bits(包括4bits的字符指针以及4bits的字符长度的整数)，地址涵盖1004~1011，最后是4bits的vptr，地址涵盖1012~1015.
+int在32位机器上一般是4bits，内存中的地址涵盖1000 ~ 1003，string通常是8bits(包括4bits的字符指针以及4bits的字符长度的整数)，地址涵盖1004 ~ 1011，最后是4bits的vptr，地址涵盖1012 ~ 1015.
 
 加上多态后
 ```
